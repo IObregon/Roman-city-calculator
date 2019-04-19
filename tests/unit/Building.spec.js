@@ -1,5 +1,6 @@
 import {mount, createLocalVue} from '@vue/test-utils'
 import Vuetify from "vuetify"
+import Vuex from 'vuex'
 import Building from '@/components/Building.vue'
 import BuildingButton from '@/components/BuildingButton.vue';
 
@@ -8,13 +9,20 @@ describe('Building.vue', () => {
     const priceTwo = "100,000";
     const priceThree = "45,000";
     const buildingName = 'BuildingName';
+
     let wrapper;
     let localVue;
+    const mockStore = {dispatch: jest.fn()};
 
     beforeEach(() => {
         localVue = createLocalVue();
         localVue.use(Vuetify);
+        localVue.use(Vuex);
+
         wrapper = mount(Building, {
+            mocks: {
+                $store: mockStore
+            },
             localVue: localVue,
             propsData: {priceOne, priceTwo, priceThree, buildingName}
         });
@@ -163,4 +171,62 @@ describe('Building.vue', () => {
             done();
         });
     });
+
+    it('When first button is clicked the first time buyBuilding action is called', (done) => {
+        wrapper.setData({
+            priceButtons: [{
+                color: 'orange',
+                disabled: false
+            }, {
+                color: '',
+                disabled: true
+            }, {
+                color: '',
+                disabled: true
+            }]
+        });
+
+        const priceButtons = wrapper.findAll(BuildingButton);
+        priceButtons.at(0).trigger('click');
+
+        wrapper.vm.$nextTick(() => {
+            expect(mockStore.dispatch).toHaveBeenCalled();
+            expect(mockStore.dispatch).toHaveBeenCalledWith('buyBuilding', {
+                name: buildingName,
+                number: 0,
+                price: priceOne
+            });
+            done();
+        });
+    });
+
+    it('When first button is clicked the second time returnBuilding action is called', (done) => {
+        wrapper.setData({
+            priceButtons: [{
+                color: 'green',
+                disabled: true,
+                text: priceOne
+            }, {
+                color: 'orange',
+                disabled: false
+            }, {
+                color: '',
+                disabled: true
+            }]
+        });
+
+        const priceButtons = wrapper.findAll(BuildingButton);
+        priceButtons.at(0).trigger('click');
+
+        wrapper.vm.$nextTick(() => {
+            expect(mockStore.dispatch).toHaveBeenCalled();
+            expect(mockStore.dispatch).toHaveBeenCalledWith('returnBuilding', {
+                name: buildingName,
+                number: 0,
+                price: priceOne
+            });
+            done();
+        });
+    })
+
 });

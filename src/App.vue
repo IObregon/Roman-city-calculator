@@ -3,12 +3,17 @@
         <v-content>
             <v-container grid-list-xl text-xs-center>
                 <v-layout row wrap>
+                    <v-flex lg3>
+                        <v-text-field label="Money" solo type="number" v-model="maxMoney"></v-text-field>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
                     <v-flex xs12 lg9>
                         <building-selector></building-selector>
                     </v-flex>
                     <v-flex xs0 xl3>
                         <v-card dark color="purple">
-                            <v-card-text>xs10 offset-xs1</v-card-text>
+                            <building-resume></building-resume>
                         </v-card>
                     </v-flex>
                 </v-layout>
@@ -18,14 +23,24 @@
 </template>
 
 <script>
-import BuildingSelector from "./components/BuildingSelector"
-export default {
-    name: 'App',
-    components: { BuildingSelector },
-    data() {
-        return {
-            //
+    import BuildingSelector from "./components/BuildingSelector"
+    import BuildingResume from "./components/BuildingResume"
+
+    export default {
+        name: 'App',
+        components: {BuildingSelector, BuildingResume},
+        data() {
+            return {}
+        },
+        computed: {
+            maxMoney: {
+                get() {
+                    return this.$store.state.maxMoney
+                },
+                set(value) {
+                    this.$store.commit('updateMaxMoney', value)
+                }
+            }
         }
     }
-}
 </script>

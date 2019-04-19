@@ -13,7 +13,6 @@
                         <building-button :text="button.text" :position="index" :color="button.color"
                                          @click="buttonClick"></building-button>
                     </template>
-
                 </v-flex>
             </v-layout>
         </v-card-actions>
@@ -53,9 +52,19 @@
                     if (!this.priceButtons[number].disabled && this.priceButtons[number - 1].color === 'green') {
                         this.priceButtons[number].disabled = true;
                         this.priceButtons[number].color = 'green';
+                        this.$store.dispatch('buyBuilding', {
+                            name: this.buildingName,
+                            number,
+                            price: this.priceButtons[number].text
+                        });
                     } else if (this.priceButtons[number].disabled && this.priceButtons[number - 1].color === 'green') {
                         this.priceButtons[number].disabled = false;
                         this.priceButtons[number].color = 'orange';
+                        this.$store.dispatch('returnBuilding', {
+                            name: this.buildingName,
+                            number,
+                            price: this.priceButtons[number].text
+                        });
                     }
                 } else {
                     if (!this.priceButtons[number].disabled && this.priceButtons[number + 1].disabled) {
@@ -63,11 +72,21 @@
                         this.priceButtons[number].color = 'green';
                         this.priceButtons[number + 1].disabled = false;
                         this.priceButtons[number + 1].color = 'orange';
+                        this.$store.dispatch('buyBuilding', {
+                            name: this.buildingName,
+                            number,
+                            price: this.priceButtons[number].text
+                        });
                     } else if (this.priceButtons[number].disabled && !this.priceButtons[number + 1].disabled) {
                         this.priceButtons[number].disabled = false;
                         this.priceButtons[number].color = 'orange';
                         this.priceButtons[number + 1].disabled = true;
                         this.priceButtons[number + 1].color = '';
+                        this.$store.dispatch('returnBuilding', {
+                            name: this.buildingName,
+                            number,
+                            price: this.priceButtons[number].text
+                        });
                     }
                 }
             }

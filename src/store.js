@@ -8,16 +8,23 @@ export default new Vuex.Store({
         items: [
             {
                 image: '/aqueduct.jpg',
-                priceOne: "100,000",
-                priceTwo: "45,000",
-                priceThree: "75,000",
+                priceOne: "100000",
+                priceTwo: "45000",
+                priceThree: "75000",
                 buildingName: "Aqueduct"
             },
             {
                 image: '/arch.jpg',
-                priceOne: "97,200",
-                priceTwo: "51,123",
-                priceThree: "99,999",
+                priceOne: "97200",
+                priceTwo: "51123",
+                priceThree: "99999",
+                buildingName: "Arch"
+            },
+            {
+                image: '/arch.jpg',
+                priceOne: "97200",
+                priceTwo: "51123",
+                priceThree: "99999",
                 buildingName: "Arch"
             }
         ],
@@ -34,24 +41,58 @@ export default new Vuex.Store({
                 disabled: true,
                 color: ''
             }
-        ]
+        ],
+        boughtBuildings: [
+        ],
+        maxMoney: 0
     },
     mutations: {
-        buildingButtonClick(state, {number}){
-            state.buttons[number].color = 'green';
-            state.buttons[number].disabled = true;
-            state.buttons[number +1].color = 'orange';
-            state.buttons[number +1].disabled = false;
+        buyBuilding(state, building) {
+            const buildingToBuy = state.boughtBuildings.find((b) => b.name === building.name);
+            if (buildingToBuy) {
+                buildingToBuy.price += Number(building.price);
+                buildingToBuy.level = building.number;
+            } else {
+                state.boughtBuildings.push({
+                    name: building.name,
+                    level: building.number,
+                    price: +building.price
+                });
+            }
+        },
+        returnBuilding(state, building) {
+            const buildingToBuy = state.boughtBuildings.find((b) => b.name === building.name);
+            if (buildingToBuy && buildingToBuy.level > 0) {
+                buildingToBuy.price -= Number(building.price);
+                buildingToBuy.level = building.number - 1;
+            } else {
+                state.boughtBuildings = state.boughtBuildings.filter((b) => b.name !== building.name);
+            }
+        },
+        updateMaxMoney(state, money){
+            state.maxMoney = money;
         }
     },
     actions: {
-        buildingButtonClick: ({commit}, number) => commit('buildingButtonClick', number)
+        buyBuilding: ({commit}, building) => commit('buyBuilding', building),
+        returnBuilding: ({commit}, building) => commit('returnBuilding', building),
+        updateMaxMoney: ({commit}, money) => commit('updateMaxMoney', money)
     },
     getters: {
         color: (state) => (number) => {
-            state;
-            debugger;
             return state.buttons[number].color;
+        },
+        boughtBuildings: state => {
+            return state.boughtBuildings
+        },
+        boughtBuildingsPriceTotal: state => {
+            const total = state.boughtBuildings.reduce((total, {price}) => {
+                return total + price;
+            }, 0);
+            return total;
+        },
+        remainingMoney: (state, getters) => {
+            return state.maxMoney - getters.boughtBuildingsPriceTotal;
         }
     }
 })
