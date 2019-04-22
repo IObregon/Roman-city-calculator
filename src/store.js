@@ -9,38 +9,123 @@ export default new Vuex.Store({
             {
                 image: '/aqueduct.jpg',
                 priceOne: "100000",
-                priceTwo: "45000",
-                priceThree: "75000",
+                priceTwo: "",
+                priceThree: "",
                 buildingName: "Aqueduct"
             },
             {
                 image: '/arch.jpg',
-                priceOne: "97200",
-                priceTwo: "51123",
-                priceThree: "99999",
+                priceOne: "20000",
+                priceTwo: "5000",
+                priceThree: "5000",
                 buildingName: "Arch"
             },
             {
-                image: '/arch.jpg',
-                priceOne: "97200",
-                priceTwo: "51123",
-                priceThree: "99999",
-                buildingName: "Arch"
-            }
-        ],
-        buttons: [
-            {
-                disabled: false,
-                color: 'orange'
+                image: '/Amphitheatre.jpg',
+                priceOne: "100000",
+                priceTwo: "30000",
+                priceThree: "15000",
+                buildingName: "Amphitheatre"
             },
             {
-                disabled: true,
-                color: ''
+                image: '/Theatre.jpg',
+                priceOne: "50000",
+                priceTwo: "25000",
+                priceThree: "12500",
+                buildingName: "Theatre"
             },
             {
-                disabled: true,
-                color: ''
+                image: '/circus.jpg',
+                priceOne: "40000",
+                priceTwo: "20000",
+                priceThree: "10000",
+                buildingName: "Circus"
+            },
+            {
+                image: '/baths.jpg',
+                priceOne: "80000",
+                priceTwo: "40000",
+                priceThree: "20000",
+                buildingName: "Baths"
+            },
+            {
+                image: '/Market.jpg',
+                priceOne: "10000",
+                priceTwo: "5000",
+                priceThree: "2500",
+                buildingName: "Market"
+            },
+            {
+                image: '/forum.jpg',
+                priceOne: "20000",
+                priceTwo: "10000",
+                priceThree: "5000",
+                buildingName: "Forum"
+            },
+            {
+                image: '/basilica.jpg',
+                priceOne: "40000",
+                priceTwo: "20000",
+                priceThree: "7500",
+                buildingName: "Basilica"
+            },
+            {
+                image: '/curia.jpg',
+                priceOne: "15000",
+                priceTwo: "7500",
+                priceThree: "3000",
+                buildingName: "Curia-Comitium"
+            },
+            {
+                image: '/temple.jpg',
+                priceOne: "40000",
+                priceTwo: "20000",
+                priceThree: "10000",
+                buildingName: "Temple"
+            },
+            {
+                image: '/bridge.jpg',
+                priceOne: "15000",
+                priceTwo: "",
+                priceThree: "",
+                buildingName: "Bridge"
+            },
+            {
+                image: '/road.jpg',
+                priceOne: "15000",
+                priceTwo: "",
+                priceThree: "",
+                buildingName: "Road"
+            },
+            {
+                image: '/port.jpg',
+                priceOne: "80000",
+                priceTwo: "",
+                priceThree: "",
+                buildingName: "Port"
+            },
+            {
+                image: '/wall.jpg',
+                priceOne: "100000",
+                priceTwo: "",
+                priceThree: "",
+                buildingName: "Wall"
+            },
+            {
+                image: '/restructuration.jpg',
+                priceOne: "750000",
+                priceTwo: "",
+                priceThree: "",
+                buildingName: "Restructuration of the street plan"
+            },
+            {
+                image: '/statue.jpg',
+                priceOne: "5000",
+                priceTwo: "2500",
+                priceThree: "2500",
+                buildingName: "Statue"
             }
+
         ],
         boughtBuildings: [
         ],
@@ -79,9 +164,6 @@ export default new Vuex.Store({
         updateMaxMoney: ({commit}, money) => commit('updateMaxMoney', money)
     },
     getters: {
-        color: (state) => (number) => {
-            return state.buttons[number].color;
-        },
         boughtBuildings: state => {
             return state.boughtBuildings
         },
