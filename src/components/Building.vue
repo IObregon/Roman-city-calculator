@@ -21,6 +21,7 @@
 
 <script>
     import BuildingButton from './BuildingButton'
+    import {mapGetters} from 'vuex'
 
     export default {
         name: 'Building',
@@ -50,13 +51,15 @@
             buttonClick(number) {
                 if (number === this.priceButtons.length - 1) {
                     if (!this.priceButtons[number].disabled && this.priceButtons[number - 1].color === 'green') {
-                        this.priceButtons[number].disabled = true;
-                        this.priceButtons[number].color = 'green';
-                        this.$store.dispatch('buyBuilding', {
-                            name: this.buildingName,
-                            number,
-                            price: this.priceButtons[number].text
-                        });
+                        if (this.remainingMoney > +this.priceButtons[number].text) {
+                            this.priceButtons[number].disabled = true;
+                            this.priceButtons[number].color = 'green';
+                            this.$store.dispatch('buyBuilding', {
+                                name: this.buildingName,
+                                number,
+                                price: this.priceButtons[number].text
+                            });
+                        }
                     } else if (this.priceButtons[number].disabled && this.priceButtons[number - 1].color === 'green') {
                         this.priceButtons[number].disabled = false;
                         this.priceButtons[number].color = 'orange';
@@ -68,15 +71,17 @@
                     }
                 } else {
                     if (!this.priceButtons[number].disabled && this.priceButtons[number + 1].disabled) {
-                        this.priceButtons[number].disabled = true;
-                        this.priceButtons[number].color = 'green';
-                        this.priceButtons[number + 1].disabled = false;
-                        this.priceButtons[number + 1].color = 'orange';
-                        this.$store.dispatch('buyBuilding', {
-                            name: this.buildingName,
-                            number,
-                            price: this.priceButtons[number].text
-                        });
+                        if (this.remainingMoney > +this.priceButtons[number].text) {
+                            this.priceButtons[number].disabled = true;
+                            this.priceButtons[number].color = 'green';
+                            this.priceButtons[number + 1].disabled = false;
+                            this.priceButtons[number + 1].color = 'orange';
+                            this.$store.dispatch('buyBuilding', {
+                                name: this.buildingName,
+                                number,
+                                price: this.priceButtons[number].text
+                            });
+                        }
                     } else if (this.priceButtons[number].disabled && !this.priceButtons[number + 1].disabled) {
                         this.priceButtons[number].disabled = false;
                         this.priceButtons[number].color = 'orange';
@@ -90,7 +95,8 @@
                     }
                 }
             }
-        }
+        },
+        computed: mapGetters(['remainingMoney'])
     }
 </script>
 

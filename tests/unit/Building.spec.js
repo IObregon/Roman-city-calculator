@@ -5,14 +5,15 @@ import Building from '@/components/Building.vue'
 import BuildingButton from '@/components/BuildingButton.vue';
 
 describe('Building.vue', () => {
-    const priceOne = "75,000";
-    const priceTwo = "100,000";
-    const priceThree = "45,000";
+    const priceOne = "75000";
+    const priceTwo = "100000";
+    const priceThree = "45000";
     const buildingName = 'BuildingName';
 
     let wrapper;
     let localVue;
-    const mockStore = {dispatch: jest.fn()};
+    let getters = {remainingMoney: 300000}
+    const mockStore = {dispatch: jest.fn(), getters};
 
     beforeEach(() => {
         localVue = createLocalVue();
@@ -28,6 +29,9 @@ describe('Building.vue', () => {
         });
 
     });
+    afterEach(() => {
+        mockStore.dispatch.mockClear();
+    })
 
     it('renders the building name when passed', () => {
         const header = wrapper.findAll('.headline');
@@ -99,13 +103,16 @@ describe('Building.vue', () => {
         wrapper.setData({
             priceButtons: [{
                 color: 'green',
-                disabled: true
+                disabled: true,
+                text: priceOne
             }, {
                 color: 'green',
-                disabled: true
+                disabled: true,
+                text: priceTwo
             }, {
                 color: 'green',
-                disabled: true
+                disabled: true,
+                text: priceThree
             }]
         });
 
@@ -124,13 +131,16 @@ describe('Building.vue', () => {
         wrapper.setData({
             priceButtons: [{
                 color: 'green',
-                disabled: true
+                disabled: true,
+                text: priceOne
             }, {
                 color: 'green',
-                disabled: true
+                disabled: true,
+                text: priceTwo
             }, {
                 color: 'orange',
-                disabled: false
+                disabled: false,
+                text: priceThree
             }]
         });
 
@@ -150,13 +160,16 @@ describe('Building.vue', () => {
         wrapper.setData({
             priceButtons: [{
                 color: 'green',
-                disabled: true
+                disabled: true,
+                text: priceOne
             }, {
                 color: 'orange',
-                disabled: false
+                disabled: false,
+                text: priceTwo
             }, {
                 color: '',
-                disabled: false
+                disabled: false,
+                text: priceThree
             }]
         });
 
@@ -176,13 +189,16 @@ describe('Building.vue', () => {
         wrapper.setData({
             priceButtons: [{
                 color: 'orange',
-                disabled: false
+                disabled: false,
+                text: priceOne
             }, {
                 color: '',
-                disabled: true
+                disabled: true,
+                text: priceTwo
             }, {
                 color: '',
-                disabled: true
+                disabled: true,
+                text: priceThree
             }]
         });
 
@@ -208,10 +224,12 @@ describe('Building.vue', () => {
                 text: priceOne
             }, {
                 color: 'orange',
-                disabled: false
+                disabled: false,
+                text: priceTwo
             }, {
                 color: '',
-                disabled: true
+                disabled: true,
+                text: priceThree
             }]
         });
 
@@ -228,5 +246,29 @@ describe('Building.vue', () => {
             done();
         });
     })
+
+    it('When first button is if there is no enough money buyBuilding action is not called', (done) => {
+        wrapper.setData({
+            priceButtons: [{
+                color: 'orange',
+                disabled: false,
+                text: '350000'
+            }, {
+                color: '',
+                disabled: true
+            }, {
+                color: '',
+                disabled: true
+            }]
+        });
+
+        const priceButtons = wrapper.findAll(BuildingButton);
+        priceButtons.at(0).trigger('click');
+
+        wrapper.vm.$nextTick(() => {
+            expect(mockStore.dispatch).toHaveBeenCalledTimes(0);
+            done();
+        });
+    });
 
 });
