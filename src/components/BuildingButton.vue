@@ -20,14 +20,18 @@
             color: {
                 type: String,
                 required: true
-            }
+            },
+            line: {
+                type: Number,
+                required: true
+            },
         },
         data() {
             return {};
         },
         methods: {
             click() {
-                this.$emit('click', this.position);
+                this.$emit('click', this.position, this.line);
             }
         }
     }

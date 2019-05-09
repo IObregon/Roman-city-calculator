@@ -4,6 +4,7 @@
             <v-container grid-list-xl text-xs-center>
                 <v-layout row wrap>
                     <v-flex lg3>
+                        Money to spend
                         <v-text-field label="Money" solo type="number" v-model="maxMoney"></v-text-field>
                     </v-flex>
                 </v-layout>
@@ -41,6 +42,6 @@
                     this.$store.commit('updateMaxMoney', value)
                 }
             }
-        }
+        },
     }
 </script>

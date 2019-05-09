@@ -1,17 +1,21 @@
 <template>
     <v-card>
-        <v-img :src="image" aspect-ratio="1.75"></v-img>
+        <v-img :src="building.image" aspect-ratio="1.75"></v-img>
         <v-card-title primary-title>
             <div>
-                <h3 class="headline mb-0">{{buildingName}}</h3>
+                <h3 class="headline mb-0">{{building.buildingName}}</h3>
             </div>
         </v-card-title>
         <v-card-actions>
             <v-layout column>
                 <v-flex xs3>
-                    <template v-for="(button, index) in priceButtons">
-                        <building-button :text="button.text" :position="index" :color="button.color"
-                                         @click="buttonClick"></building-button>
+                    <template v-for="(buttonLine, line) in building.priceButtons">
+                        <template v-for="(button, index) in buttonLine">
+                            <building-button :text="button.text" :position="index" :line="line"
+                                             :color.sync="button.color"
+                                             @click="buttonClick" v-show="button.show"></building-button>
+                        </template>
+                        <br>
                     </template>
                 </v-flex>
             </v-layout>
@@ -26,77 +30,100 @@
     export default {
         name: 'Building',
         components: {BuildingButton},
-        props: ['image', 'priceOne', 'priceTwo', 'priceThree', 'buildingName'],
+        props: ['building'],
         data() {
             return {
-                priceButtons: [
-                    {
-                        text: this.priceOne,
-                        disabled: false,
-                        color: 'orange'
-                    },
-                    {
-                        text: this.priceTwo,
-                        disabled: true,
-                        color: ''
-                    },
-                    {
-                        text: this.priceThree,
-                        disabled: true,
-                        color: ''
-                    }]
+                buttons: this.building.priceButtons
             }
         },
         methods: {
-            buttonClick(number) {
-                if (number === this.priceButtons.length - 1) {
-                    if (!this.priceButtons[number].disabled && this.priceButtons[number - 1].color === 'green') {
-                        if (this.remainingMoney > +this.priceButtons[number].text) {
-                            this.priceButtons[number].disabled = true;
-                            this.priceButtons[number].color = 'green';
+            buttonClick(position, line) {
+                const copyButtons = {...this.buttons}
+                if (position === this.buttons[line].length - 1) {
+                    if (!this.buttons[line][position].disabled) {
+                        if (this.remainingMoney > +this.buttons[line][position].text) {
+                            copyButtons[line][position].disabled = true;
+                            copyButtons[line][position].color = 'green';
                             this.$store.dispatch('buyBuilding', {
-                                name: this.buildingName,
-                                number,
-                                price: this.priceButtons[number].text
+                                name: this.building.buildingName,
+                                number: position,
+                                price: copyButtons[line][position].text,
+                                line
                             });
                         }
-                    } else if (this.priceButtons[number].disabled && this.priceButtons[number - 1].color === 'green') {
-                        this.priceButtons[number].disabled = false;
-                        this.priceButtons[number].color = 'orange';
+                    } else if (this.buttons[line][position].disabled) {
+                        copyButtons[line][position].disabled = false;
+                        copyButtons[line][position].color = 'orange';
                         this.$store.dispatch('returnBuilding', {
-                            name: this.buildingName,
-                            number,
-                            price: this.priceButtons[number].text
+                            name: this.building.buildingName,
+                            number: position,
+                            price: copyButtons[line][position].text,
+                            line
                         });
                     }
                 } else {
-                    if (!this.priceButtons[number].disabled && this.priceButtons[number + 1].disabled) {
-                        if (this.remainingMoney > +this.priceButtons[number].text) {
-                            this.priceButtons[number].disabled = true;
-                            this.priceButtons[number].color = 'green';
-                            this.priceButtons[number + 1].disabled = false;
-                            this.priceButtons[number + 1].color = 'orange';
+                    if (!this.buttons[line][position].disabled && this.buttons[line][position + 1].disabled) {
+                        if (this.remainingMoney > +this.buttons[line][position].text) {
+                            copyButtons[line][position].disabled = true;
+                            copyButtons[line][position].color = 'green';
+                            copyButtons[line][position + 1].disabled = false;
+                            copyButtons[line][position + 1].color = 'orange';
                             this.$store.dispatch('buyBuilding', {
-                                name: this.buildingName,
-                                number,
-                                price: this.priceButtons[number].text
+                                name: this.building.buildingName,
+                                number: position,
+                                price: copyButtons[line][position].text,
+                                line
                             });
                         }
-                    } else if (this.priceButtons[number].disabled && !this.priceButtons[number + 1].disabled) {
-                        this.priceButtons[number].disabled = false;
-                        this.priceButtons[number].color = 'orange';
-                        this.priceButtons[number + 1].disabled = true;
-                        this.priceButtons[number + 1].color = '';
+                    } else if (this.buttons[line][position].disabled && !this.buttons[line][position + 1].disabled) {
+                        copyButtons[line][position].disabled = false;
+                        copyButtons[line][position].color = 'orange';
+                        copyButtons[line][position + 1].disabled = true;
+                        copyButtons[line][position + 1].color = '';
                         this.$store.dispatch('returnBuilding', {
-                            name: this.buildingName,
-                            number,
-                            price: this.priceButtons[number].text
+                            name: this.building.buildingName,
+                            number: position,
+                            price: copyButtons[line][position].text,
+                            line
                         });
+                    }
+                    this.$set(this.buttons, copyButtons);
+                }
+                if (position === 0 && !this.buttons[line][position].disabled) {
+                    this.notShowNextLine(line, position, copyButtons);
+                } else {
+                    this.showNextLine(line);
+                }
+                this.$forceUpdate();
+            },
+            showNextLine(line) {
+                if (this.buttons[line + 1]) {
+                    this.buttons[line + 1] = this.buttons[line + 1].map(b => {
+                        return {...b, show: true};
+                    })
+                }
+            },
+            notShowNextLine(line, position, copyButtons) {
+                if (this.buttons[line + 1]) {
+                    for (let i = 1; i < this.buttons.length - line; i++) {
+                        this.$store.dispatch('returnBuilding', {
+                            name: this.building.buildingName,
+                            number: -1,
+                            price: copyButtons[line + i][position].text,
+                            line: line + i
+                        });
+                        this.buttons[line + i] = this.buttons[line + i].map(b => {
+                            return {...b, show: false, color: '', disabled: true};
+                        });
+                        this.buttons[line + i][0].color = "orange";
+                        this.buttons[line + i][0].disabled = false;
                     }
                 }
             }
         },
-        computed: mapGetters(['remainingMoney'])
+        computed: {
+            ...mapGetters(['remainingMoney'])
+        }
     }
 </script>
 

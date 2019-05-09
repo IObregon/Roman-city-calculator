@@ -5,135 +5,151 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        items: [
+        defaultButtons: [
+            {
+                // text: this.priceOne,
+                disabled: false,
+                color: 'orange'
+            },
+            {
+                // text: this.priceTwo,
+                disabled: true,
+                color: ''
+            },
+            {
+                // text: this.priceThree,
+                disabled: true,
+                color: ''
+            },
+        ],
+        buildings: [
             {
                 image: '/aqueduct.jpg',
-                priceOne: "100000",
-                priceTwo: "",
-                priceThree: "",
-                buildingName: "Aqueduct"
+                prices: ["100000"],
+                buildingName: "Aqueduct",
+                maxButtonNumber: 1,
+                maxButtonsLines: 5
             },
             {
                 image: '/arch.jpg',
-                priceOne: "20000",
-                priceTwo: "5000",
-                priceThree: "5000",
-                buildingName: "Arch"
+                prices: ["20000", "5000", "5000"],
+                buildingName: "Arch",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
-                image: '/Amphitheatre.jpg',
-                priceOne: "100000",
-                priceTwo: "30000",
-                priceThree: "15000",
-                buildingName: "Amphitheatre"
+                image: '/amphitheatre.jpg',
+                prices: ["100000", "30000", "15000"],
+                buildingName: "Amphitheatre",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
-                image: '/Theatre.jpg',
-                priceOne: "50000",
-                priceTwo: "25000",
-                priceThree: "12500",
-                buildingName: "Theatre"
+                image: '/theatre.jpg',
+                prices: ["50000", "25000", "12500"],
+                buildingName: "Theatre",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
                 image: '/circus.jpg',
-                priceOne: "40000",
-                priceTwo: "20000",
-                priceThree: "10000",
-                buildingName: "Circus"
+                prices: ["40000", "20000", "10000"],
+                buildingName: "Circus",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
                 image: '/baths.jpg',
-                priceOne: "80000",
-                priceTwo: "40000",
-                priceThree: "20000",
-                buildingName: "Baths"
+                prices: ["80000", "40000", "20000"],
+                buildingName: "Baths",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
-                image: '/Market.jpg',
-                priceOne: "10000",
-                priceTwo: "5000",
-                priceThree: "2500",
-                buildingName: "Market"
+                image: '/market.jpg',
+                prices: ["10000", "5000", "2500"],
+                buildingName: "Market",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
                 image: '/forum.jpg',
-                priceOne: "20000",
-                priceTwo: "10000",
-                priceThree: "5000",
-                buildingName: "Forum"
+                prices: ["20000", "10000", "5000"],
+                buildingName: "Forum",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
                 image: '/basilica.jpg',
-                priceOne: "40000",
-                priceTwo: "20000",
-                priceThree: "7500",
-                buildingName: "Basilica"
+                prices: ["40000", "20000", "7500"],
+                buildingName: "Basilica",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
                 image: '/curia.jpg',
-                priceOne: "15000",
-                priceTwo: "7500",
-                priceThree: "3000",
-                buildingName: "Curia-Comitium"
+                prices: ["15000", "7500", "3000"],
+                buildingName: "Curia-Comitium",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
                 image: '/temple.jpg',
-                priceOne: "40000",
-                priceTwo: "20000",
-                priceThree: "10000",
-                buildingName: "Temple"
+                prices: ["40000", "20000", "10000"],
+                buildingName: "Temple",
+                maxButtonNumber: 3,
+                maxButtonsLines: 5
             },
             {
                 image: '/bridge.jpg',
-                priceOne: "15000",
-                priceTwo: "",
-                priceThree: "",
-                buildingName: "Bridge"
+                prices: ["15000"],
+                buildingName: "Bridge",
+                maxButtonNumber: 1,
+                maxButtonsLines: 5
             },
             {
                 image: '/road.jpg',
-                priceOne: "15000",
-                priceTwo: "",
-                priceThree: "",
-                buildingName: "Road"
+                prices: ["15000"],
+                buildingName: "Road",
+                maxButtonNumber: 1,
+                maxButtonsLines: 1
             },
             {
                 image: '/port.jpg',
-                priceOne: "80000",
-                priceTwo: "",
-                priceThree: "",
-                buildingName: "Port"
+                prices: ["80000"],
+                buildingName: "Port",
+                maxButtonNumber: 1,
+                maxButtonsLines: 1
             },
             {
                 image: '/wall.jpg',
-                priceOne: "100000",
-                priceTwo: "",
-                priceThree: "",
-                buildingName: "Wall"
+                prices: ["100000"],
+                buildingName: "Wall",
+                maxButtonNumber: 1,
+                maxButtonsLines: 1
             },
             {
                 image: '/restructuration.jpg',
-                priceOne: "750000",
-                priceTwo: "",
-                priceThree: "",
-                buildingName: "Restructuration of the street plan"
+                prices: ["750000"],
+                buildingName: "Restructuration of the street plan",
+                maxButtonNumber: 1,
+                maxButtonsLines: 1
             },
             {
                 image: '/statue.jpg',
-                priceOne: "5000",
-                priceTwo: "2500",
-                priceThree: "2500",
-                buildingName: "Statue"
+                prices: ["5000", "2500", "2500"],
+                buildingName: "Statue",
+                maxButtonNumber: 3,
+                maxButtonsLines: 10
             }
 
         ],
-        boughtBuildings: [
-        ],
-        maxMoney: 0
+        boughtBuildings: [],
+        maxMoney: 0,
     },
     mutations: {
         buyBuilding(state, building) {
-            const buildingToBuy = state.boughtBuildings.find((b) => b.name === building.name);
+            const buildingToBuy = state.boughtBuildings.find((b) => b.key === building.name + building.line);
             if (buildingToBuy) {
                 buildingToBuy.price += Number(building.price);
                 buildingToBuy.level = building.number;
@@ -141,27 +157,34 @@ export default new Vuex.Store({
                 state.boughtBuildings.push({
                     name: building.name,
                     level: building.number,
-                    price: +building.price
+                    price: +building.price,
+                    line: building.line,
+                    key: building.name + building.line
                 });
             }
         },
         returnBuilding(state, building) {
-            const buildingToBuy = state.boughtBuildings.find((b) => b.name === building.name);
+            const buildingToBuy = state.boughtBuildings.find((b) => b.key === building.name + building.line);
+            if (building && building.number === -1) {
+                state.boughtBuildings = state.boughtBuildings.filter((b) => b.key !== building.name + building.line);
+                return;
+            }
             if (buildingToBuy && buildingToBuy.level > 0) {
                 buildingToBuy.price -= Number(building.price);
                 buildingToBuy.level = building.number - 1;
             } else {
-                state.boughtBuildings = state.boughtBuildings.filter((b) => b.name !== building.name);
+                state.boughtBuildings = state.boughtBuildings.filter((b) => b.key !== building.name + building.line);
             }
         },
-        updateMaxMoney(state, money){
+        updateMaxMoney(state, money) {
             state.maxMoney = money;
-        }
+        },
     },
     actions: {
         buyBuilding: ({commit}, building) => commit('buyBuilding', building),
         returnBuilding: ({commit}, building) => commit('returnBuilding', building),
-        updateMaxMoney: ({commit}, money) => commit('updateMaxMoney', money)
+        updateMaxMoney: ({commit}, money) => commit('updateMaxMoney', money),
+        createBuildingButtons: ({commit}) => commit('createBuildingButtons')
     },
     getters: {
         boughtBuildings: state => {
@@ -175,6 +198,20 @@ export default new Vuex.Store({
         },
         remainingMoney: (state, getters) => {
             return state.maxMoney - getters.boughtBuildingsPriceTotal;
+        },
+        buildings: state => {
+            return state.buildings.map(building => {
+                let result = [];
+                for (let i = 0; i < building.maxButtonsLines; i++) {
+                    let result2 = [];
+                    for (let j = 0; j < building.maxButtonNumber; j++) {
+                        result2.push({...state.defaultButtons[j], text: building.prices[j], show: i === 0});
+                    }
+                    result.push(result2);
+                }
+                building.priceButtons = result;
+                return building;
+            })
         }
     }
 })

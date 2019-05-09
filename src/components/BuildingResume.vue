@@ -1,9 +1,9 @@
 <template>
     <v-list>
         <template v-for="building in boughtBuildings">
-            <v-list-tile :key="building.name">
+            <v-list-tile :key="building.name + building.line">
                 <v-list-tile-content>
-                    <v-list-tile-title v-html="building.name"></v-list-tile-title>
+                    <v-list-tile-title v-html="name(building)"></v-list-tile-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
                     <v-list-tile-action-text>{{ building.price }}</v-list-tile-action-text>
@@ -38,6 +38,13 @@
         data() {
             return {};
         },
-        computed: mapGetters(['boughtBuildings', "boughtBuildingsPriceTotal", "remainingMoney"])
+        methods: {
+            name(building){
+                return building.level === 0 ? building.name : building.name + "+".repeat(building.level)
+            }
+        },
+        computed: {
+            ...mapGetters(['boughtBuildings', "boughtBuildingsPriceTotal", "remainingMoney"])
+        }
     }
 </script>
