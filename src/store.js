@@ -130,7 +130,7 @@ export default new Vuex.Store({
             },
             {
                 image: '/restructuration.jpg',
-                prices: ["750000"],
+                prices: ["75000"],
                 buildingName: "Restructuration of the street plan",
                 maxButtonNumber: 1,
                 maxButtonsLines: 1

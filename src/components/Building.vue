@@ -13,9 +13,11 @@
                         <template v-for="(button, index) in buttonLine">
                             <building-button :text="button.text" :position="index" :line="line"
                                              :color.sync="button.color"
-                                             @click="buttonClick" v-show="button.show"></building-button>
+                                             @click="buttonClick" v-show="button.show"
+                                             v-bind:key="button.text + line + index"></building-button>
                         </template>
-                        <br>
+                        <br v-bind:key="line + 'a'"/>
+                        <br v-bind:key="line + 'b'"/>
                     </template>
                 </v-flex>
             </v-layout>
